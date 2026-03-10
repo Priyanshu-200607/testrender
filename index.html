@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Quiet Confession</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --pink-1: #ffd7e8;
+      --pink-2: #ffb8d2;
+      --pink-3: #ff8fbc;
+      --blue-1: #d8eeff;
+      --blue-2: #b4ddff;
+      --blue-3: #83c9ff;
+      --ink: #324a66;
+      --ink-soft: #4e6785;
+      --card: rgba(255, 255, 255, 0.86);
+      --border: rgba(255, 255, 255, 0.98);
+      --shadow: 0 26px 55px rgba(67, 98, 140, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Manrope", sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 143, 188, 0.56), transparent 35%),
+        radial-gradient(circle at 85% 20%, rgba(131, 201, 255, 0.56), transparent 33%),
+        linear-gradient(165deg, #fff5fa 0%, #f4fbff 60%, #fff8fd 100%);
+    }
+
+    .scroll-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 5px;
+      z-index: 50;
+      background: linear-gradient(90deg, var(--pink-2), var(--blue-2));
+      box-shadow: 0 2px 12px rgba(180, 164, 255, 0.35);
+      transition: width 0.1s linear;
+    }
+
+    .sky {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(1px);
+      animation: drift 12s ease-in-out infinite;
+      opacity: 0.5;
+    }
+
+    .blob.one {
+      width: 260px;
+      aspect-ratio: 1;
+      left: -50px;
+      top: 12vh;
+      background: radial-gradient(circle at 35% 30%, #ffdceb, var(--pink-2) 60%, var(--pink-3));
+    }
+
+    .blob.two {
+      width: 320px;
+      aspect-ratio: 1;
+      right: -70px;
+      top: 40vh;
+      background: radial-gradient(circle at 30% 30%, #e2f3ff, var(--blue-2) 55%, var(--blue-3));
+      animation-delay: -4s;
+    }
+
+    .blob.three {
+      width: 240px;
+      aspect-ratio: 1;
+      left: 40%;
+      bottom: -80px;
+      background: radial-gradient(circle at 30% 30%, #fff0f7, #ffd4e8 58%, #ffadd0);
+      animation-delay: -7s;
+    }
+
+    .blob.four {
+      width: 200px;
+      aspect-ratio: 1;
+      right: 18%;
+      bottom: 7vh;
+      background: radial-gradient(circle at 40% 25%, #f2f9ff, #cce8ff 55%, #9fd4ff);
+      animation: drift-alt 10s ease-in-out infinite;
+      animation-delay: -3s;
+    }
+
+    .blob.five {
+      width: 170px;
+      aspect-ratio: 1;
+      left: 14%;
+      top: 58vh;
+      background: radial-gradient(circle at 40% 25%, #ffeaf4, #ffc6de 55%, #ffa6ce);
+      animation: drift-alt 14s ease-in-out infinite;
+      animation-delay: -6s;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0px) translateX(0px) scale(1); }
+      50% { transform: translateY(-26px) translateX(16px) scale(1.05); }
+    }
+
+    @keyframes drift-alt {
+      0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+      50% { transform: translateY(20px) translateX(-18px) rotate(4deg); }
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .sparkles span {
+      position: absolute;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.85);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.7);
+      animation: twinkle 4.6s ease-in-out infinite, float-up 11s linear infinite;
+      opacity: 0.45;
+    }
+
+    .sparkles span:nth-child(odd) {
+      background: rgba(255, 233, 246, 0.95);
+    }
+
+    .sparkles span:nth-child(even) {
+      background: rgba(219, 240, 255, 0.95);
+    }
+
+    .sparkles span:nth-child(1) { left: 8%; top: 88%; animation-delay: -1s; }
+    .sparkles span:nth-child(2) { left: 19%; top: 80%; animation-delay: -3.2s; }
+    .sparkles span:nth-child(3) { left: 33%; top: 84%; animation-delay: -2.1s; }
+    .sparkles span:nth-child(4) { left: 47%; top: 90%; animation-delay: -4.1s; }
+    .sparkles span:nth-child(5) { left: 62%; top: 82%; animation-delay: -2.7s; }
+    .sparkles span:nth-child(6) { left: 75%; top: 87%; animation-delay: -3.9s; }
+    .sparkles span:nth-child(7) { left: 87%; top: 79%; animation-delay: -1.8s; }
+    .sparkles span:nth-child(8) { left: 92%; top: 92%; animation-delay: -4.4s; }
+
+    @keyframes twinkle {
+      0%, 100% { transform: scale(0.7); opacity: 0.28; }
+      50% { transform: scale(1.2); opacity: 0.9; }
+    }
+
+    @keyframes float-up {
+      0% { translate: 0 0; }
+      100% { translate: 0 -115vh; }
+    }
+
+    main {
+      width: min(980px, 92vw);
+      margin: 0 auto;
+      padding: 9vh 0 14vh;
+      display: grid;
+      gap: 20vh;
+    }
+
+    .section {
+      min-height: 82vh;
+      display: grid;
+      place-items: center;
+      opacity: 0;
+      transform: translateY(40px) scale(0.98);
+      transition: opacity 0.9s ease, transform 0.9s ease;
+      will-change: transform, opacity;
+    }
+
+    .section.show {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .card {
+      width: min(760px, 100%);
+      border: 1px solid var(--border);
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      box-shadow: var(--shadow);
+      border-radius: 28px;
+      padding: clamp(1.4rem, 3vw, 2.7rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -140px auto auto -120px;
+      width: 240px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 184, 210, 0.34), transparent 70%);
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-bottom: 0.65rem;
+      font-weight: 700;
+    }
+
+    h1, h2 {
+      font-family: "Fraunces", serif;
+      line-height: 1.1;
+      color: #2f4864;
+      margin-bottom: 1rem;
+    }
+
+    h1 { font-size: clamp(2rem, 7vw, 4.5rem); }
+    h2 { font-size: clamp(1.6rem, 5vw, 3rem); }
+
+    p {
+      font-size: clamp(1rem, 2.3vw, 1.24rem);
+      line-height: 1.8;
+      color: var(--ink);
+    }
+
+    .highlight {
+      background: linear-gradient(120deg, rgba(255, 184, 210, 0.45), rgba(180, 221, 255, 0.45));
+      padding: 0.05em 0.35em;
+      border-radius: 0.42em;
+      white-space: nowrap;
+    }
+
+    .hero .card {
+      text-align: center;
+      padding-top: 3.3rem;
+      padding-bottom: 3.1rem;
+    }
+
+    .hero .title-line {
+      display: block;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: liftIn 0.8s forwards;
+    }
+
+    .hero .title-line:nth-child(2) { animation-delay: 0.2s; }
+    .hero .title-line:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes liftIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .pulse {
+      display: inline-block;
+      animation: pulse 2.2s ease-in-out infinite;
+      transform-origin: center;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .quiet {
+      margin-top: 1.2rem;
+      font-size: 0.96rem;
+      color: var(--ink-soft);
+      letter-spacing: 0.02em;
+    }
+
+    .line {
+      display: block;
+      opacity: 0.25;
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .signature {
+      margin-top: 1.6rem;
+      font-family: "Fraunces", serif;
+      font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+      color: #2b4460;
+    }
+
+    .floating-note {
+      position: fixed;
+      right: 1rem;
+      bottom: 1rem;
+      padding: 0.65rem 0.95rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      color: #35506f;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 10px 24px rgba(110, 134, 167, 0.17);
+      z-index: 12;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .floating-note.show {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+
+    .footer {
+      text-align: center;
+      padding: 0 1rem 2.2rem;
+      color: #607d9f;
+      font-size: 0.88rem;
+    }
+
+    @media (max-width: 700px) {
+      main { gap: 14vh; }
+      .section { min-height: 72vh; }
+      .card { border-radius: 22px; }
+      .floating-note { right: 0.6rem; bottom: 0.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+      .section { opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress"></div>
+  <div class="sky" aria-hidden="true">
+    <div class="blob one"></div>
+    <div class="blob two"></div>
+    <div class="blob three"></div>
+    <div class="blob four"></div>
+    <div class="blob five"></div>
+    <div class="sparkles">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <main>
+    <section class="section hero show" data-note="Scroll slowly, this page has a heartbeat.">
+      <article class="card">
+        <p class="eyebrow">This is a confession</p>
+        <h1>
+          <span class="title-line">To the one who feels</span>
+          <span class="title-line"><span class="highlight">exactly my type</span></span>
+          <span class="title-line">in every quiet way</span>
+        </h1>
+        <p class="quiet">No pressure. No question. Just honesty.</p>
+      </article>
+    </section>
+
+    <section class="section" data-note="The more I know you, the calmer I feel.">
+      <article class="card">
+        <p class="eyebrow">Part 01</p>
+        <h2>You feel like warmth</h2>
+        <p>
+          You are sweet in the kind of way that doesn't try too hard.
+          It feels natural, soft, and real. Around you, everything noisy in my head
+          slows down, and I remember how gentle life can be.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" data-note="You don't even know how much light you carry.">
+      <article class="card">
+        <p class="eyebrow">Part 02</p>
+        <h2>The little things stay with me</h2>
+        <p>
+          The way you speak, the way you smile, the way you make small moments feel important.
+          I notice all of it. I keep those moments like pressed flowers inside a book I read again and again.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" data-note="This is not a demand. It is just truth.">
+      <article class="card">
+        <p class="eyebrow">Part 03</p>
+        <h2>So this is my confession</h2>
+        <p>
+          I like you. Deeply, quietly, genuinely.
+          I am not asking for an answer right now, and I am not putting a weight on your heart.
+          I just wanted you to know what is true in mine.
+        </p>
+      </article>
+    </section>
+
+    <section class="section" data-note="Thank you for existing exactly as you are.">
+      <article class="card">
+        <p class="eyebrow">Part 04</p>
+        <h2>If this reaches you softly, it did its job <span class="pulse"><span aria-hidden="true">&hearts;</span></span></h2>
+        <p>
+          Whether this changes nothing or everything, this confession is still beautiful to me,
+          because it is honest. And you are worth honesty.
+        </p>
+        <span class="line">With care, always</span>
+        <p class="signature">someone who admires you</p>
+      </article>
+    </section>
+  </main>
+
+  <div class="floating-note" id="floatingNote">Scroll slowly, this page has a heartbeat.</div>
+  <p class="footer">Made with baby pink skies and soft blue calm.</p>
+
+  <script>
+    const sections = [...document.querySelectorAll('.section')];
+    const progress = document.getElementById('scrollProgress');
+    const note = document.getElementById('floatingNote');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('show');
+            const text = entry.target.dataset.note;
+            if (text) {
+              note.textContent = text;
+              note.classList.add('show');
+            }
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+
+    const updateProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+      progress.style.width = `${Math.min(100, Math.max(0, ratio))}%`;
+
+      const fadeStart = scrollable * 0.9;
+      if (window.scrollY > fadeStart) {
+        note.classList.remove('show');
+      }
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('load', updateProgress);
+  </script>
+</body>
+</html>
